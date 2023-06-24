@@ -5,6 +5,9 @@ const path = require('path');
 const { config } = require('dotenv');
 const { Configuration, OpenAIApi } = require('openai');
 const readline = require('readline');
+const say = require('say');
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 config();
 
@@ -15,7 +18,7 @@ app.use(bodyParser.json());
 // Serve the index.html file
 app.get('/', (req, res) => {
   const indexPath = path.join(__dirname, 'index.html');
-  res.sendFile(indexPath);
+ res.render('template',data="")
 });
 
 // Handle form submission
@@ -23,9 +26,10 @@ app.post('/getdata', async (req, res) => {
   const data = req.body.speechInput;
 
   // Do something with the submitted data
-  console.log('Submitted Name:', data);
 
-  res.send('Form submitted successfully!');
+  console.log('Submitted data:', data);
+
+ // res.send('Form submitted successfully!');
 
   const openAi = new OpenAIApi(
     new Configuration({
@@ -36,7 +40,13 @@ app.post('/getdata', async (req, res) => {
     model: "gpt-3.5-turbo",
     messages: [{ role: "user", content: data }],
   });
+  let message=response.data.choices[0].message.content;
   console.log(response.data.choices[0].message.content);
+  say.speak(message)
+  res.render('template', { data });
+  res.redirect("/")
+
+  
 
 });
 
