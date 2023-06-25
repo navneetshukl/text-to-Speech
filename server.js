@@ -13,6 +13,7 @@ app.use(express.static('styles'));
 
 config();
 let data=""
+apiKey="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"
 
 // Middleware to parse the request body
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -35,7 +36,7 @@ app.post('/getdata', async (req, res) => {
 
     const openAi = new OpenAIApi(
       new Configuration({
-        apiKey: process.env.API_KEY,
+        apiKey: apiKey,
       })
     );
     const response = await openAi.createChatCompletion({
