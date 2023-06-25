@@ -12,6 +12,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static('styles'));
 
 config();
+let data=""
 
 // Middleware to parse the request body
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,12 +21,12 @@ app.use(bodyParser.json());
 // Serve the index.html file
 app.get('/', (req, res) => {
   //const indexPath = path.join(__dirname, 'index.html');
- res.render('template',data="")
+ res.render('template',{data})
 });
 
 // Handle form submission
 app.post('/getdata', async (req, res) => {
-  const data = req.body.speechInput;
+   data = req.body.speechInput;
 
   // Do something with the submitted data
 
@@ -45,7 +46,7 @@ app.post('/getdata', async (req, res) => {
   let message=response.data.choices[0].message.content;
   console.log(response.data.choices[0].message.content);
   say.speak(message)
-  res.render('template', { data });
+  //res.render('template', { data });
   res.redirect("/")
 
   
