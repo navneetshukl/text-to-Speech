@@ -9,6 +9,8 @@ const say = require('say');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(express.static('styles'));
+
 config();
 
 // Middleware to parse the request body
@@ -17,7 +19,7 @@ app.use(bodyParser.json());
 
 // Serve the index.html file
 app.get('/', (req, res) => {
-  const indexPath = path.join(__dirname, 'index.html');
+  //const indexPath = path.join(__dirname, 'index.html');
  res.render('template',data="")
 });
 
