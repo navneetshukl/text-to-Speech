@@ -26,32 +26,32 @@ app.get('/', (req, res) => {
 
 // Handle form submission
 app.post('/getdata', async (req, res) => {
-   data = req.body.speechInput;
+  try {
+    data = req.body.speechInput;
 
-  // Do something with the submitted data
+    // Do something with the submitted data
 
-  console.log('Submitted data:', data);
+    console.log('Submitted data:', data);
 
- // res.send('Form submitted successfully!');
-
-  const openAi = new OpenAIApi(
-    new Configuration({
-      apiKey: process.env.API_KEY,
-    })
-  );
-  const response = await openAi.createChatCompletion({
-    model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: data }],
-  });
-  let message=response.data.choices[0].message.content;
-  console.log(response.data.choices[0].message.content);
-  say.speak(message)
-  //res.render('template', { data });
-  res.redirect("/")
-
-  
-
+    const openAi = new OpenAIApi(
+      new Configuration({
+        apiKey: process.env.API_KEY,
+      })
+    );
+    const response = await openAi.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: data }],
+    });
+    let message = response.data.choices[0].message.content;
+    console.log(response.data.choices[0].message.content);
+    say.speak(message);
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error occurred:", error);
+    // Handle the error here, e.g., send an error response or redirect to an error page
+  }
 });
+
 
 // Start the server
 const port = 3000;
