@@ -4,9 +4,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const { config } = require('dotenv');
 const { Configuration, OpenAIApi } = require('openai');
-const readline = require('readline');
+//const readline = require('readline');
 const say = require('say');
-const { log, error } = require('console');
+//const { log, error } = require('console');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
