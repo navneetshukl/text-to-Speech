@@ -6,6 +6,7 @@ const { config } = require('dotenv');
 const { Configuration, OpenAIApi } = require('openai');
 const readline = require('readline');
 const say = require('say');
+const { log, error } = require('console');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -13,7 +14,7 @@ app.use(express.static('styles'));
 
 config();
 let data=""
-apiKey="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"
+apiKey=process.env.API_KEY
 
 // Middleware to parse the request body
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -33,6 +34,10 @@ app.post('/getdata', async (req, res) => {
     // Do something with the submitted data
 
     console.log('Submitted data:', data);
+    if(apiKey==null){
+      console.log("API key not set");
+      return 
+    }
 
     const openAi = new OpenAIApi(
       new Configuration({
@@ -45,7 +50,15 @@ app.post('/getdata', async (req, res) => {
     });
     let message = response.data.choices[0].message.content;
     console.log(response.data.choices[0].message.content);
-    say.speak(message);
+    //say.speak(message);
+    say.speak(message, 1.0, (err) => {
+      if (err) {
+        console.log(err)
+        return console.error(err)
+      }
+    
+      console.log('Text has been spoken.')
+    });
     res.redirect("/");
   } catch (error) {
     console.error("Error occurred:", error);
